@@ -1,3 +1,4 @@
+#as sudo run 
 import serial
 import time
 ser = serial.Serial('/dev/ttyACM0')
