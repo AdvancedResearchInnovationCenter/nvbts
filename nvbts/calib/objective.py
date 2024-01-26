@@ -9,12 +9,13 @@ class Cam2Sensor:
         self.camera_matrix = camera_matrix
         self.exp = exp_markers_arr
         self.th = th_markers_arr
-        self.num_markers = self.exp.shape[0] * self.exp.shape[1]
+        self.num_markers = self.exp.shape[0]
         
         self.fx = self.camera_matrix[0, 0]
         self.fy = self.camera_matrix[1, 1]
         self.cx = self.camera_matrix[0, 2]
         self.cy = self.camera_matrix[1, 2]
+
 
     def project_markers(self, T, th_markers_arr: np.ndarray):
         R = Rot.from_rotvec(T[-3:]).as_matrix()
@@ -38,7 +39,7 @@ class Cam2Sensor:
         R = Rot.from_rotvec(T[-3:]).as_matrix()
         t = np.array(T[:3])
         
-        th_Fcam = R @ self.th.reshape(63, 3).T + t.reshape(-1, 1) # 3 x n
+        th_Fcam = R @ self.th.reshape(self.num_markers, 3).T + t.reshape(-1, 1) # 3 x n
         
         proj_th_x = self.fx * th_Fcam[0, :]/th_Fcam[2,:] + self.cx
         proj_th_y = self.fy * th_Fcam[1, :]/th_Fcam[2,:] + self.cy

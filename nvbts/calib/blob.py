@@ -46,20 +46,16 @@ def nothing(x):
 
 center = [172, 112] #(162, 123)
 roi_r = 80
-frame = cv2.imread('image.png')
+frame = cv2.imread('/home/hussain/Downloads/image (1).png')
+print(frame)
 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 mask = np.zeros(frame.shape[:2], np.uint8)
-mask[120:354, 140:430] = 1
-# masked_image = cv2.bitwise_and(frame, mask=mask)
-masked_img = gray * mask
-gray = masked_img
-# gray = cv2.GaussianBlur(gray, (3,3), 5)
+# mask[120:354, 140:430] = 1
+# masked_image = cv2.bitwise_and(frame, frame, mask=mask)
+# masked_img = gray * mask
+gray = cv2.bilateralFilter(gray, 5, 75, 75)
+gray = cv2.GaussianBlur(gray, (3,3), 5)
 # thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 35, 15)
-# k_3 = np.ones((3,3),np.uint8)
-# k_5 = np.ones((5,5),np.uint8)
-# thresh = cv2.erode(thresh,k_3,iterations = 1)
-# thresh = cv2.dilate(thresh,k_5,iterations = 1)
-# thresh = cv2.erode(thresh, k_3,iterations = 1)
 
 # mask = np.zeros_like(frame)
 # mask = cv2.circle(mask, center, roi_r, (255,255,255), -1)
@@ -128,6 +124,11 @@ while True:
 
     thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, blockSize, C)
 
+    k_3 = np.ones((3,3),np.uint8)
+    k_5 = np.ones((5,5),np.uint8)
+    thresh = cv2.erode(thresh,k_3,iterations = 1)
+    thresh = cv2.dilate(thresh,k_3,iterations = 1)
+    # thresh = cv2.erode(thresh, k_3,iterations = 1)
 
     # Blob detection parameters
 
@@ -139,13 +140,13 @@ while True:
 
     params.maxThreshold = 255
 
-    params.filterByArea = True
+    params.filterByArea = False
 
     params.minArea = cv2.getTrackbarPos('minArea', 'Adaptive Thresholding and Blob Detection')
 
     params.maxArea = cv2.getTrackbarPos('maxArea', 'Adaptive Thresholding and Blob Detection')
 
-    params.filterByCircularity = True
+    params.filterByCircularity = False
 
     params.minCircularity = cv2.getTrackbarPos('minCircularity', 'Adaptive Thresholding and Blob Detection') / 10.0
 
