@@ -7,3 +7,4 @@ nvbts_utils.egg_info/
 .ipynb_checkpoints
 build/
 dist/
+fea/data
