@@ -27,7 +27,7 @@ cv2.createTrackbar('maxInertiaRation', 'Adaptive Thresholding and Blob Detection
 size = frame.shape[:2]
 cv2.createTrackbar('center_x', 'Adaptive Thresholding and Blob Detection', 0, size[1], nothing)
 cv2.createTrackbar('center_y', 'Adaptive Thresholding and Blob Detection', 0, size[0], nothing)
-cv2.createTrackbar('radius', 'Adaptive Thresholding and Blob Detection', 0, 2000, nothing)
+cv2.createTrackbar('radius', 'Adaptive Thresholding and Blob Detection', 0, 500, nothing)
 
 cv2.createTrackbar('BlockSize', 'Adaptive Thresholding and Blob Detection', 15, 50, nothing)
 cv2.createTrackbar('C', 'Adaptive Thresholding and Blob Detection', 50, 50, nothing)
@@ -58,7 +58,7 @@ while True:
     radius = cv2.getTrackbarPos('radius', 'Adaptive Thresholding and Blob Detection')
 
     mask = np.zeros(frame.shape[:2], np.uint8)
-    mask = cv2.circle(mask, (center_x, center_y), radius, (255, 255, 255), -1)
+    mask = cv2.circle(mask, (center_x, center_y), radius, (255, 255, 255), -1, 8, 0)
 
     gray = cv2.bitwise_and(gray, gray, mask=mask)
 
@@ -170,14 +170,31 @@ while True:
         
         params_dict = {}
 
+        preprocess_params = {
+            'center_x': center_x,
+            'center_y': center_y,
+            'radius': radius,
+            'BlockSize': blockSize,
+            'C': C,
+            'bilateral': cv2.getTrackbarPos('bilateral', 'Adaptive Thresholding and Blob Detection'),
+            'GaussianBlur': cv2.getTrackbarPos('GaussianBlur', 'Adaptive Thresholding and Blob Detection'),
+            'clahe': cv2.getTrackbarPos('clahe', 'Adaptive Thresholding and Blob Detection'),
+            'invert': cv2.getTrackbarPos('invert', 'Adaptive Thresholding and Blob Detection'),
+            'Opening': cv2.getTrackbarPos('Opening', 'Adaptive Thresholding and Blob Detection'),
+            'Closing': cv2.getTrackbarPos('Closing', 'Adaptive Thresholding and Blob Detection'),
+            'Erosion': cv2.getTrackbarPos('Erosion', 'Adaptive Thresholding and Blob Detection'),
+            'Dilation': cv2.getTrackbarPos('Dilation', 'Adaptive Thresholding and Blob Detection')
+        }
+
         for attr in dir(params):
             if not attr.startswith('__'):
                 params_dict[attr] = getattr(params, attr)
-        params_dict.update({"C": C, "blockSize": blockSize})
         
-        with open('params.json', 'w') as f:
-            
-            json.dump(params_dict, fp=f, indent=4)
+        with open('nvbts/markers/blob.json', 'w') as f:
+            json.dump({
+                'preprocess_params': preprocess_params,
+                'blob_params': params_dict
+            }, f, indent=4)
 
 
         break

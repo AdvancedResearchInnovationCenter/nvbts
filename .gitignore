@@ -8,3 +8,4 @@ nvbts_utils.egg_info/
 build/
 dist/
 fea/data
+*.mat

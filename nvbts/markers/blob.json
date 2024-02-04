@@ -1,0 +1,39 @@
+{
+    "preprocess_params": {
+        "center_x": 164,
+        "center_y": 98,
+        "radius": 100,
+        "BlockSize": 15,
+        "C": 50,
+        "bilateral": 1,
+        "GaussianBlur": 0,
+        "clahe": 1,
+        "invert": 0,
+        "Opening": 2,
+        "Closing": 0,
+        "Erosion": 0,
+        "Dilation": 0
+    },
+    "blob_params": {
+        "blobColor": 0,
+        "collectContours": false,
+        "filterByArea": false,
+        "filterByCircularity": false,
+        "filterByColor": true,
+        "filterByConvexity": false,
+        "filterByInertia": false,
+        "maxArea": 0.0,
+        "maxCircularity": 3.4028234663852886e+38,
+        "maxConvexity": 3.4028234663852886e+38,
+        "maxInertiaRatio": 3.4028234663852886e+38,
+        "maxThreshold": 255.0,
+        "minArea": 0.0,
+        "minCircularity": 0.800000011920929,
+        "minConvexity": 0.949999988079071,
+        "minDistBetweenBlobs": 1.0,
+        "minInertiaRatio": 0.10000000149011612,
+        "minRepeatability": 2,
+        "minThreshold": 60.0,
+        "thresholdStep": 10.0
+    }
+}
