@@ -16,11 +16,12 @@ push directly
 
 ## TODO
 1. calib
-    - [ ] code for depth calibration
-    - [ ] integrate code with nvbts
+    - [x] code for depth calibration using both cv2.solvepnp and matlab
+    - [x] integrate code with nvbts
 2. events
     - [ ] tonic interface to get all event representations and slicing
 3. frames
-    - [ ] blob detector
+    - [x] blob detector
 4. misc
     - [x] create repo
+    - [x] sorting using k means 
