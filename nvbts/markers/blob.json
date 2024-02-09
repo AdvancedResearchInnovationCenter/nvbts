@@ -1,15 +1,15 @@
 {
     "preprocess_params": {
-        "center_x": 164,
-        "center_y": 98,
-        "radius": 100,
+        "center_x": 0,
+        "center_y": 0,
+        "radius": 0,
         "BlockSize": 15,
         "C": 50,
-        "bilateral": 1,
+        "bilateral": 0,
         "GaussianBlur": 0,
-        "clahe": 1,
+        "clahe": 0,
         "invert": 0,
-        "Opening": 2,
+        "Opening": 0,
         "Closing": 0,
         "Erosion": 0,
         "Dilation": 0

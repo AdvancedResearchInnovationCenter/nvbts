@@ -1,7 +1,7 @@
 from sklearn.cluster import KMeans
 import numpy as np
 
-def sort_markers_k_means(markers_x, markers_y, k=8):
+def sort_markers_k_means(markers, k=8):
     """
     Sorts the markers in the order of the layers using k-means clustering.
     The markers are first clustered into k clusters using k-means clustering.
@@ -26,6 +26,9 @@ def sort_markers_k_means(markers_x, markers_y, k=8):
     layer : list
         Layer of each marker.
     """
+
+    markers_x = markers[:, 0]
+    markers_y = markers[:, 1]
     marker_layers = []
 
     center_x = np.mean(markers_x)
@@ -37,8 +40,10 @@ def sort_markers_k_means(markers_x, markers_y, k=8):
     marker_layers.append(np.array([[center_x, center_y, 0, 0]]))
 
     #drop the center
-    markers_xx = markers_x[markers_x != center_x]
-    markers_yy = markers_y[markers_y != center_y]
+    markers_xx = np.delete(markers_x, closest)
+    markers_yy = np.delete(markers_y, closest)
+
+
     x = np.array(markers_xx) - center_x
     y = np.array(markers_yy) - center_y
     r = np.sqrt(x**2 + y**2)
@@ -48,7 +53,7 @@ def sort_markers_k_means(markers_x, markers_y, k=8):
 
     markers = np.array([markers_xx, markers_yy, r, tan2_phi]).T
 
-    kmeans = KMeans(n_clusters=k, algorithm='full')
+    kmeans = KMeans(n_clusters=k, algorithm='lloyd', n_init='auto')
     kmeans.fit(r.reshape(-1, 1))
     labels = kmeans.labels_
     sorted_indices = np.argsort(kmeans.cluster_centers_.flatten())
@@ -71,6 +76,7 @@ def sort_markers_k_means(markers_x, markers_y, k=8):
             right_marker = np.argmin(np.abs(tan1_vec))
             x_coord.append(layer[right_marker,0].tolist())
             y_coord.append(layer[right_marker,1].tolist())
+            la.append(i)
             layer_tmp = np.delete(layer, right_marker, axis=0)
             sorted_layer_indices = np.argsort(layer_tmp[:,3].flatten())
             sorted_layer_indices = sorted_layer_indices[::-1]
@@ -81,4 +87,4 @@ def sort_markers_k_means(markers_x, markers_y, k=8):
                 y_coord.append(y_tmp)
                 la.append(i)
 
-    return np.array(x_coord), np.array(y_coord), np.array(la)
+    return np.stack((x_coord, y_coord), axis=-1), la

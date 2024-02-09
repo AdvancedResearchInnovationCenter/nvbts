@@ -11,6 +11,7 @@ class MarkerDetector:
 
         with open(camera_intrinsics) as f:
             self.camera_intrinsics = json.load(f)
+            # print(self.camera_intrinsics)
             self.camera_matrix = np.array(self.camera_intrinsics['camera_matrix'])
             self.dist_coeffs = np.array(self.camera_intrinsics['distortion_coeffs'])
 

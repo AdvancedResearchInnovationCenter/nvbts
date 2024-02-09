@@ -1,9 +1,16 @@
-#as sudo run 
+#to run without sudo, add your user to the dialout group
+#sudo usermod -a -G tty your-username
+
 import serial
 import time
-ser = serial.Serial('/dev/ttyACM0')
+import glob
 
-# ser.write(b'o')
-ser.write(b'c')
+class Gate:
+    def __init__(self):
+        self.ser = serial.Serial(list(glob.glob('/dev/ttyUSB*'))[0]) #try ttyACM if this doesn't work
+    
+    def close(self):
+        self.ser.write(b'c')
 
-time.sleep(1) 
+    def open(self):
+        self.ser.write(b'o')
