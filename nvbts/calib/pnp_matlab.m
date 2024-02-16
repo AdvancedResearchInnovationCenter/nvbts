@@ -1,4 +1,4 @@
-load("/home/hussain/me/projects/nvbts/calib.mat")
+load("/home/hussain/Downloads/calib.mat")
 focal_length = [intrinsics.camera_matrix(1, 1), intrinsics.camera_matrix(2, 2)];
 
 tangential = intrinsics.dist_coeffs(1:2);

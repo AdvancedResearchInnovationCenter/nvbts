@@ -31,8 +31,8 @@ def sort_markers_k_means(markers, k=8):
     markers_y = markers[:, 1]
     marker_layers = []
 
-    center_x = np.mean(markers_x)
-    center_y = np.mean(markers_y)
+    center_x = np.median(markers_x)
+    center_y = np.median(markers_y)
 
     closest = np.argmin(np.sqrt((markers_x - center_x)**2 + (markers_y - center_y)**2))
 
@@ -54,6 +54,7 @@ def sort_markers_k_means(markers, k=8):
     markers = np.array([markers_xx, markers_yy, r, tan2_phi]).T
 
     kmeans = KMeans(n_clusters=k, algorithm='lloyd', n_init='auto')
+
     kmeans.fit(r.reshape(-1, 1))
     labels = kmeans.labels_
     sorted_indices = np.argsort(kmeans.cluster_centers_.flatten())
@@ -71,7 +72,7 @@ def sort_markers_k_means(markers, k=8):
             y_coord.append(layer[:,1].item())
             la.append(0)
         else:
-            cluster_center = [np.mean(layer[:,0]), np.mean(layer[:,1])]
+            cluster_center = [np.median(layer[:,0]), np.median(layer[:,1])]
             tan1_vec = np.arctan2(layer[:,1]-cluster_center[1], layer[:,0]-cluster_center[0])
             right_marker = np.argmin(np.abs(tan1_vec))
             x_coord.append(layer[right_marker,0].tolist())
