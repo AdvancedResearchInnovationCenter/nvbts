@@ -1,5 +1,6 @@
 from sklearn.cluster import KMeans
 import numpy as np
+import matplotlib.pyplot as plt
 
 def sort_markers_k_means(markers, k=8):
     """
@@ -10,10 +11,7 @@ def sort_markers_k_means(markers, k=8):
 
     Parameters
     ----------
-    markers_x : list
-        List of x-coordinates of the markers.
-    markers_y : list
-        List of y-coordinates of the markers.
+    markers : np.ndarray of shape (n, 2)
     k : int
         Number of clusters = number of layers - 1.
     
@@ -61,7 +59,7 @@ def sort_markers_k_means(markers, k=8):
 
     for i in range(k):
         marker_layers.append(np.array(markers[labels == sorted_indices[i]]))
-        # plt.scatter(marker_layers[i+1][:, 0], marker_layers[i+1][:, 1])
+        plt.scatter(marker_layers[i+1][:, 0], marker_layers[i+1][:, 1])
 
     x_coord = []
     y_coord = []
