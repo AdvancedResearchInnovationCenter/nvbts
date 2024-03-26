@@ -18,6 +18,14 @@ class Cam2SensorCalib:
         with open(intrinsincs_path, 'r') as f:
             self._intrinsics = json.load(f)
 
+    def exlcude_last_layer(self, idx_last_layer=42):
+        """Exclude the last layer of the markers. The last layer is the layer with the largest radius.
+
+        Args:
+            idx_last_layer (int, optional): Index of the last layer. Defaults to 42.
+        """
+        self._3d_markers_arr = self._3d_markers_arr[:-idx_last_layer]
+        self._2d_markers_arr = self._2d_markers_arr[:-idx_last_layer]
 
     def set_3d_markers(self, markers_arr):
         """Set the 3D markers. See utils for dome shaped markers and flat markers.
@@ -51,7 +59,7 @@ class Cam2SensorCalib:
         print("Calibration data saved to calib.mat. Run the matlab script to get the calibration data")
         
 
-    def calibrate(self, method = 'pnp'):
+    def calibrate(self, method = 'pnp', **kwargs):
         assert self._3d_markers_arr is not None, "3D markers not set"
         assert self._2d_markers_arr is not None, "2D markers not set"
 
@@ -59,8 +67,13 @@ class Cam2SensorCalib:
             return self._calibrate_pnp()
         elif method == 'matlab':
             self.save_mat()
+        elif method == 'optimize':
+            self._calibrate_optimize(**kwargs)
         else:
             raise ValueError("Invalid method")
+        
+    def _calibrate_optimize(self, **kwargs):
+        pass
         
     def _calibrate_pnp(self):
         # Get the camera intrinsics

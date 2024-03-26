@@ -36,7 +36,7 @@ class Cam2Sensor:
             T (np.ndarray): 4x4 transformation matrix
         """
         
-        R = Rot.from_rotvec(T[-3:]).as_matrix()
+        R = Rot.from_euler('xyz', T[-3:]).as_matrix()
         t = np.array(T[:3])
         
         th_Fcam = R @ self.th.reshape(self.num_markers, 3).T + t.reshape(-1, 1) # 3 x n
