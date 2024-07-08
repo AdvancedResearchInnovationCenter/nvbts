@@ -8,7 +8,7 @@ def nothing(x):
     pass
 
 
-frame = cv2.imread('/home/hussain/Desktop/final_resting.png')
+frame = cv2.imread('/home/aric/Desktop/image.png')
 
 
 cv2.namedWindow('Adaptive Thresholding and Blob Detection')

@@ -48,7 +48,12 @@ def dome_3d(
         
         markers_list.append((x,y,z))
 
-    return np.array(markers_list)
+    markers_3d = np.array(markers_list)
+
+    markers_3d[:,2] = markers_3d[:,2] - markers_3d[0,2] # make origin at the center of the dome
+    markers_3d[:,1] = -markers_3d[:,1]                  # flip the y axis. use clockwise convention for sorting markers as seen in the image
+
+    return markers_3d
 
 
 def gelsight_mini_3d():
